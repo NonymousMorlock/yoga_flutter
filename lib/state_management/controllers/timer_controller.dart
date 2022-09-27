@@ -3,29 +3,43 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../features/yoga/views/Workout.dart';
+import '../../features/today/services/localdb.dart';
+import '../../features/yoga/views/workout.dart';
 import '../../features/yoga/views/break.dart';
+import '../../features/yoga/views/finish.dart';
 import 'yoga_controller.dart';
 
 
 class CountdownTimerController extends ChangeNotifier {
   int countdown = 5;
   Timer? timerObject;
+  late YogaController _yogaController;
 
   Future<void> timer(context) async{
     timerObject = Timer.periodic(const Duration(seconds: 1), (timer) {
       countdown--;
       notifyListeners();
       if(countdown == 0){
+        readTime();
         timer.cancel();
-        Navigator.popAndPushNamed(context, Workout.id);
+        Navigator.popAndPushNamed(context, WorkoutScreen.id);
         countdown = 5;
       }
     });
   }
 
+  void readTime(){
+    if(_yogaController.current?.idx == 0){
+      String now = DateTime.now().toString();
+      LocalDB.setStartTime(now);
+
+    }
+
+  }
+
   CountdownTimerController(BuildContext context) {
     timer(context);
+    _yogaController = Provider.of<YogaController>(context, listen: false);
   }
 
   @override
@@ -38,6 +52,7 @@ class CountdownTimerController extends ChangeNotifier {
 class WorkoutTimerController extends ChangeNotifier {
   int countdown = 30;
   Timer? timerObject;
+  late YogaController _yogaController;
 
   bool visible = false;
   bool paused = false;
@@ -47,11 +62,16 @@ class WorkoutTimerController extends ChangeNotifier {
       notifyListeners();
       if(countdown == 0){
         timer.cancel();
-        Navigator.popAndPushNamed(context, BreakTime.id);
+        if(_yogaController.next!.title!.toLowerCase() == "finish") {
+          Navigator.popAndPushNamed(context, Finish.id);
+        } else {
+          Navigator.popAndPushNamed(context, BreakTime.id);
+        }
         countdown = 30;
       }
     });
   }
+
 
   void pause() {
     timerObject?.cancel();
@@ -78,7 +98,10 @@ class WorkoutTimerController extends ChangeNotifier {
   }
 
   WorkoutTimerController(BuildContext context) {
-    timer(context);
+    _yogaController = Provider.of<YogaController>(context, listen: false);
+    if(_yogaController.workoutName != Workout.diet) {
+      timer(context);
+    }
   }
 
   @override
@@ -105,7 +128,7 @@ class BreakTimerController with ChangeNotifier{
       if(countdown == 0){
         timer.cancel();
         _yogaController.playNext();
-        Navigator.popAndPushNamed(context, Workout.id);
+        Navigator.popAndPushNamed(context, WorkoutScreen.id);
       }
     });
   }

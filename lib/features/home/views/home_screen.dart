@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../state_management/controllers/yoga_controller.dart';
 import '../widgets/category_tile.dart';
 import '../../yoga/views/product_page.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const id = "/";
   const HomeScreen({super.key});
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -22,8 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
               width: MediaQuery.of(context).size.width * 0.9,
               margin: const EdgeInsets.only(bottom: 20),
-              padding:
-              const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(40))),
@@ -58,30 +57,32 @@ class _HomeScreenState extends State<HomeScreen> {
                 Positioned(
                   left: 0,
                   child: Container(
-                    height: MediaQuery.of(context).size.height*0.43,
+                    height: MediaQuery.of(context).size.height * 0.43,
                     width: MediaQuery.of(context).size.width,
                     color: const Color(0xfff5ceb8),
                     child: Container(
-                      margin: const EdgeInsets.only(right: 40, top: 20, bottom: 20),
+                      margin:
+                          const EdgeInsets.only(right: 40, top: 20, bottom: 20),
                       alignment: Alignment.centerLeft,
                       decoration: const BoxDecoration(
                           image: DecorationImage(
                               image: AssetImage('asset/path.png'),
-                              fit: BoxFit.contain
-                          )
-                      ),
+                              fit: BoxFit.contain)),
                     ),
                   ),
                 ),
                 Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.all(20),
-                  child: const Text("Good Morning \nJohn", style: TextStyle(
-                    fontFamily: "Ethnocentric",
+                  child: Text(
+                    "${DateTime.now().hour < 12 ? 'GOOD MORNING!' : DateTime.now().hour < 16 ? 'GOOD AFTERNOON!' : 'GOOD EVENING!'}\nYOGI",
+                    style: const TextStyle(
+                      fontFamily: "Ethnocentric",
                       fontSize: 30,
                       fontWeight: FontWeight.w700,
                       color: Colors.black,
-                  ),),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -116,7 +117,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: "Yoga",
                     onTap: openProductPage,
                   ),
-
                 ],
               ),
             ],
@@ -126,7 +126,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void openProductPage(String img, String title) =>
-      Navigator.pushNamed(context, ProductPage.id,
-          arguments: {'image': img, 'title': title});
+  void openProductPage(String img, String title) {
+    context.read<YogaController>().setWorkoutName(title);
+    Navigator.pushNamed(context, ProductPage.id,
+        arguments: {'image': img, 'title': title});
+  }
 }

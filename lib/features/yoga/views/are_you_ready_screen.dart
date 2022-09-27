@@ -10,7 +10,8 @@ class AreYouReadyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<CountdownTimerController>(create: (context) => CountdownTimerController(context),
+    return ChangeNotifierProvider<CountdownTimerController>(
+      create: (context) => CountdownTimerController(context),
       child: Scaffold(
           body: Container(
         alignment: Alignment.center,

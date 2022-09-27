@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../state_management/controllers/timer_controller.dart';
 import '../../../state_management/controllers/yoga_controller.dart';
-import 'Workout.dart';
+import 'workout.dart';
 
 class BreakTime extends StatelessWidget {
   static const id = "/break";
@@ -22,7 +22,7 @@ class BreakTime extends StatelessWidget {
             decoration: const BoxDecoration(
                 image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage("https://images.unsplash.com/photo-1558017487-06bf9f82613a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=470&q=80" )
+                    image: AssetImage("asset/break.jpg")
                 )
             ),
             child: Consumer<YogaController>(
@@ -40,7 +40,7 @@ class BreakTime extends StatelessWidget {
                   const SizedBox(height: 20,),
                   ElevatedButton(onPressed: (){
                     yogaController.playNext();
-                    Navigator.popAndPushNamed(context, Workout.id);
+                    Navigator.popAndPushNamed(context, WorkoutScreen.id);
                   }, child: const Padding(
                     padding: EdgeInsets.symmetric(vertical: 10 , horizontal: 24),
 
@@ -54,12 +54,12 @@ class BreakTime extends StatelessWidget {
                       children: [
                         TextButton(onPressed: (){
                           yogaController.playPrev();
-                          Navigator.popAndPushNamed(context, Workout.id);
+                          Navigator.popAndPushNamed(context, WorkoutScreen.id);
                         }, child: const Text("Previous" , style: TextStyle(fontSize: 16),)),
                         TextButton(
                           onPressed: (){
                           yogaController.playNext();
-                          Navigator.popAndPushNamed(context, Workout.id);
+                          Navigator.popAndPushNamed(context, WorkoutScreen.id);
                         }, child: const Text("Next" , style: TextStyle(fontSize: 16),),),
                       ],
                     ),

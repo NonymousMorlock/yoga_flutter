@@ -21,6 +21,9 @@ dependencies:
   shared_preferences: ^2.0.15
   get_it: ^7.2.0
   rive: ^0.9.1
+  intl: ^0.17.0
+  image: ^3.2.0
+  get: ^4.6.5
 
 dev_dependencies:
   flutter_test:
@@ -34,6 +37,12 @@ flutter:
   uses-material-design: true
   assets:
     - asset/
+    - asset/01_Suryanamskar/
+    - asset/logo/
+    - asset/yoga/
+    - asset/kegels/
+    - asset/meditation/
+    - asset/food_recommendation/
 
   fonts:
     - family: Avenir

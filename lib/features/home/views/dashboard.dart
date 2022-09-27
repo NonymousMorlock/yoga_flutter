@@ -8,6 +8,7 @@ import '../../today/view/today_screen.dart';
 import 'home_screen.dart';
 
 class DashBoard extends StatefulWidget {
+  static const id = "/dash?=1";
   const DashBoard({Key? key}) : super(key: key);
 
   @override

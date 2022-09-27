@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar(
@@ -23,10 +24,10 @@ class CustomAppBar extends StatelessWidget {
         builder: (_, child) => AppBar(
           leading: IconButton(
             icon: Icon(
-              Icons.dehaze,
+              FontAwesomeIcons.dumbbell,
               color: drawerTween.value,
             ),
-            onPressed: onPressed,
+            onPressed: null,
           ),
           backgroundColor: colorsTween.value,
           elevation: 0,
@@ -51,9 +52,16 @@ class CustomAppBar extends StatelessWidget {
             ],
           ),
           actions: [
-            Icon(Icons.notifications, color: iconTween.value),
-            CircleAvatar(
-              backgroundColor: Colors.green,
+            GestureDetector(
+              onTap: onPressed,
+                child: Icon(Icons.notifications, color: iconTween.value)),
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: CircleAvatar(
+                backgroundColor: Colors.green,
+                child: Image.asset("asset/pfp.png"),
+
+              ),
             ),
           ],
         ),
