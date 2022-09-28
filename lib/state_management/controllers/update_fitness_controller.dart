@@ -41,7 +41,7 @@ class UpdateFitnessController with ChangeNotifier {
     DateTime tempDate = DateFormat("yyyy-MM-dd hh:mm:ss")
         .parse(await LocalDB.getLastDoneOn() ?? "2022-05-24 19:31:15.182");
     int difference = DateTime.now().difference(tempDate).inDays;
-    if (!(difference == 0)) {
+    if (difference == 1) {
       int? streaknow = await LocalDB.getStreak();
       int newStreak;
       if (streaknow != null) {
@@ -51,6 +51,10 @@ class UpdateFitnessController with ChangeNotifier {
       }
       LocalDB.setStreak(newStreak);
       _yogaController.setStats(streak: newStreak);
+      _yogaController.resetDayWorkout();
+    } else if(difference > 1) {
+      LocalDB.setStreak(1);
+      _yogaController.setStats(streak: 1);
       _yogaController.resetDayWorkout();
     }
 
