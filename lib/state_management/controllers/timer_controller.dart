@@ -29,12 +29,7 @@ class CountdownTimerController extends ChangeNotifier {
   }
 
   void readTime(){
-    if(_yogaController.current?.idx == 0){
-      String now = DateTime.now().toString();
-      LocalDB.setStartTime(now);
-
-    }
-
+      _yogaController.setStartTime();
   }
 
   CountdownTimerController(BuildContext context) {

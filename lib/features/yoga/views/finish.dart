@@ -23,8 +23,30 @@ class _FinishState extends State<Finish> {
 
 
   void _onRiveInit(Artboard artboard) {
-    final controller = StateMachineController.fromArtboard(artboard, Provider.of<YogaController>(context, listen: false).workoutMinutes! < 2 ? "Motion" : "State Machine 1");
+    final controller = StateMachineController.fromArtboard(artboard, stateMachineName);
     artboard.addController(controller!);
+  }
+
+  late int difference;
+  late String stateMachineName;
+  late String animation;
+
+  void init() {
+    DateTime startTime = Provider.of<YogaController>(context, listen: false).startTime!;
+    difference = DateTime.now().difference(startTime).inMinutes;
+    if(difference > 1) {
+      stateMachineName = "State Machine 1";
+      animation = "bloom";
+    } else  {
+      stateMachineName = "Motion";
+      animation = "waiting";
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
   }
 
   @override
@@ -39,7 +61,7 @@ class _FinishState extends State<Finish> {
             children: [
               Container(
                   height: double.maxFinite,
-                  child: RiveAnimation.asset("asset/${yogaController.workoutMinutes! < 2 ? "waiting" : "bloom"}.riv", fit: BoxFit.cover, onInit: _onRiveInit)
+                  child: RiveAnimation.asset("asset/$animation.riv", fit: BoxFit.cover, onInit: _onRiveInit)
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +71,7 @@ class _FinishState extends State<Finish> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Image.asset(
-                          yogaController.workoutMinutes! > 1
+                          difference > 1
                               ? "asset/trophy.png"
                               : "asset/lazy.png",
                           width: 350,
@@ -73,7 +95,7 @@ class _FinishState extends State<Finish> {
                                 style: TextStyle(
                                   fontSize: 26,
                                   fontWeight: FontWeight.bold,
-                                  color: yogaController.workoutMinutes! > 2 ? Colors.purple : Colors.white
+                                  color: difference > 1 ? Colors.purple : Colors.white
                                 ),
                               ),
                               Text(
@@ -81,25 +103,25 @@ class _FinishState extends State<Finish> {
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
-                                    color: yogaController.workoutMinutes! > 2 ? Colors.purple : Colors.white),
+                                    color: difference > 1 ? Colors.purple : Colors.white),
                               )
                             ],
                           ),
                           Column(
                             children: [
                               Text(
-                                fitController.difference.toString(),
+                                difference.toString(),
                                 style: TextStyle(
                                     fontSize: 26,
                                     fontWeight: FontWeight.bold,
-                                    color: yogaController.workoutMinutes! > 2 ? Colors.purple : Colors.white),
+                                    color: difference > 1 ? Colors.purple : Colors.white),
                               ),
                               Text(
                                 "Minutes",
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
-                                    color: yogaController.workoutMinutes! > 2 ? Colors.purple : Colors.white),
+                                    color: difference > 1 ? Colors.purple : Colors.white),
                               )
                             ],
                           )
@@ -125,7 +147,7 @@ class _FinishState extends State<Finish> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 15,
-                                  color: yogaController.workoutMinutes! > 2 ? Colors.purple : Colors.white),
+                                  color: difference > 1 ? Colors.purple : Colors.white),
                             ),
                           ),
                           GestureDetector(
@@ -148,7 +170,7 @@ class _FinishState extends State<Finish> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 15,
-                                  color: yogaController.workoutMinutes! > 2 ? Colors.purple : Colors.white),
+                                  color: difference > 1 ? Colors.purple : Colors.white),
                             ),
                           ),
                         ],

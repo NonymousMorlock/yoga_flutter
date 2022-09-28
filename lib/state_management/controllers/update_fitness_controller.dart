@@ -7,11 +7,11 @@ import 'yoga_controller.dart';
 
 class UpdateFitnessController with ChangeNotifier {
   UpdateFitnessController(BuildContext context) {
+    _yogaController = Provider.of<YogaController>(context, listen: false);
     difference = 0;
     burntCal = 0;
     SetWorkoutTime();
     lastWorkOutDoneOn();
-    _yogaController = Provider.of<YogaController>(context, listen: false);
     if(_yogaController.workoutName != Workout.diet) {
       setMyKCal(13);
     }
@@ -22,10 +22,7 @@ class UpdateFitnessController with ChangeNotifier {
   int burntCal = 0;
 
   void SetWorkoutTime() async {
-    String? startTime = await LocalDB.getStartTime();
-    DateTime tempDate = DateFormat("yyyy-MM-dd hh:mm:ss")
-        .parse(startTime ?? "2022-05-24 19:31:15.182");
-    difference = DateTime.now().difference(tempDate).inMinutes;
+    difference = DateTime.now().difference(_yogaController.startTime!).inMinutes;
     int? mywotime = await LocalDB.getWorkOutTime();
     int newTime;
     if (mywotime != null) {

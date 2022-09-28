@@ -40,7 +40,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    StateController stateController = Provider.of<StateController>(context, listen: false);
+    StateController stateController =
+        Provider.of<StateController>(context, listen: false);
     if (stateController.prefs == null) {
       Provider.of<StateController>(context, listen: false)
           .initPrefs(widget.prefs);
@@ -57,7 +58,7 @@ class _MyAppState extends State<MyApp> {
     for (int i = 0; i < 6; i++) {
       yogaController.addSession(Session(title: "Session ${i + 1}", idx: i));
     }
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await stateController.getImgBytes();
     });
 
@@ -76,15 +77,17 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          useMaterial3: true,
-          fontFamily: 'Avenir',
-          scaffoldBackgroundColor: ThemeData.dark().scaffoldBackgroundColor,
-          textTheme: ThemeData.dark().textTheme,
-          dividerTheme: ThemeData.dark().dividerTheme,
-          bottomAppBarTheme: ThemeData.dark().bottomAppBarTheme,
-          bottomNavigationBarTheme: ThemeData.dark().bottomNavigationBarTheme,
-          appBarTheme: ThemeData.dark().appBarTheme),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        useMaterial3: true,
+        fontFamily: 'Avenir',
+        scaffoldBackgroundColor: ThemeData.dark().scaffoldBackgroundColor,
+        textTheme: ThemeData.dark().textTheme,
+        dividerTheme: ThemeData.dark().dividerTheme,
+        bottomAppBarTheme: ThemeData.dark().bottomAppBarTheme,
+        bottomNavigationBarTheme: ThemeData.dark().bottomNavigationBarTheme,
+        appBarTheme: ThemeData.dark().appBarTheme,
+        dialogTheme: ThemeData.dark().dialogTheme,
+      ),
       home: const SplashScreen(),
       routes: {
         ProductPage.id: (_) => const ProductPage(),

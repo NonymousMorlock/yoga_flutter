@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../features/today/services/localdb.dart';
 import '../../features/yoga/views/finish.dart';
@@ -14,6 +15,13 @@ class YogaController extends ChangeNotifier {
   Workout get workoutName => _workoutName;
   List<Workout> _doneWorkout = [];
   List<Workout> get doneWorkout => _doneWorkout;
+  DateTime? startTime;
+
+  void setStartTime() async {
+    startTime = DateFormat("yyyy-MM-dd hh:mm:ss")
+        .parse(DateTime.now().toString());
+    await Future.delayed(Duration.zero, () => notifyListeners());
+  }
 
   int? _streak, _kCal, _workoutMinutes;
   int? get streak => _streak;
